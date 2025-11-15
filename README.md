@@ -5,7 +5,7 @@
 
 ## 🎥 Demonstração
 
-Você pode acessar uma demonstração ao vivo do projeto [neste link]().
+Você pode acessar uma demonstração ao vivo do projeto [neste link](https://www.youtube.com/watch?v=jiRP1ZWLQQA).
 
 
 
@@ -142,5 +142,5 @@ Para usar 100% do projeto recomendo rodar localmente.
 # Links: 
 
 1. Deploy: https://gs-java-0em0.onrender.com
-2. Link de apresentação: 
+2. Link de apresentação: https://www.youtube.com/watch?v=jiRP1ZWLQQA
 
