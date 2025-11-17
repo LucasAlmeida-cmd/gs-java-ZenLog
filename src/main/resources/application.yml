@@ -22,10 +22,10 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.OracleDialect
+        dialect: org.hibernate.dialect.SQLServerDialect
         format_sql: true
     show-sql: true
 
@@ -46,9 +46,6 @@ spring:
       api-key: ${GPT_PASS_KEY}
       model: gpt-3.5-turbo
 
-
-
-
 api:
   security:
     token:
@@ -64,12 +61,12 @@ spring:
       on-profile: local
 
   datasource:
-    url: jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL
-    username: ${ORACLE_USER_KEY}
-    password: ${ORACLE_PASS_KEY}
+    url: ${SPRING_DATASOURCE_SQL_URL}
+    username: ${SQL_USER_KEY}
+    password: ${SQL_PASS_KEY}
 
-#    comando para subir docker
-#    docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+  #    comando para subir docker
+  #    docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
   rabbitmq:
     host: localhost
     port: 5672
@@ -80,19 +77,47 @@ spring:
 # ===================================
 # PERFIL PRODUÇÃO (para o DEPLOY)
 # ===================================
-
 spring:
   config:
     activate:
       on-profile: prod
 
-
   datasource:
-    url: jdbc:oracle:thin:@oracle.fiap.com.br:1521:ORCL
-    username: ${ORACLE_USER_KEY}
-    password: ${ORACLE_PASS_KEY}
-
+    url: ${SPRING_DATASOURCE_SQL_URL}
+    username: ${SQL_USER_KEY}
+    password: ${SQL_PASS_KEY}
 
   rabbitmq:
     addresses: ${RABBITMQ_URL}
     queue: email.notification.queue
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database-platform: org.hibernate.dialect.H2Dialect
+  flyway:
+    enabled: false
+
+  mail:
+    password: "dummy-mail-password"
+    host: "localhost"
+  ai:
+    openai:
+      api-key: "dummy-ai-key"
+
+
+api:
+  security:
+    token:
+      secret: "TESTE_SEM_VALOR_SENSIVEL"
